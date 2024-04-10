@@ -57,7 +57,7 @@ spec:
             - name: hbbs-port
               containerPort: 21116
               protocol: TCP
-            - name: hbbs-port
+            - name: hbbs-port-udp
               containerPort: 21116
               protocol: UDP
             - name: hbbs-websocket
