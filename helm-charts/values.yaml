@@ -23,6 +23,10 @@ hbbr:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
+  secret:
+    # existingSecret: rustdesk-server-hbbr
+    private: foo
+    public: bar
   # extraArgs:
   #   - foo
   #   - bar
@@ -63,11 +67,6 @@ service:
   hbbsWebsocket: 21118
   hbbrPort: 21117
   hbbrWebsocket: 21119
-
-secret:
-  # existingSecret: rustdesk-server-hbbr
-  private: foo
-  public: bar
 
 persistence:
   # storageClassName: default

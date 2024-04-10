@@ -63,8 +63,8 @@ spec:
       volumes:
         - name: hbbr-keys
           secret:
-      {{- if .Values.secret.existingSecret }}
-            secretName: {{ .Values.secret.existingSecret }}
+      {{- if .Values.hbbr.secret.existingSecret }}
+            secretName: {{ .Values.hbbr.secret.existingSecret }}
       {{- else }}
             secretName: {{ include "rustdesk-server.fullname" . }}-hbbr
       {{- end }}
