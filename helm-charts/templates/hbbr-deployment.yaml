@@ -37,6 +37,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.hbbr.image.repository }}:{{ .Values.hbbr.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.hbbr.image.pullPolicy }}
+          command: [ "/usr/bin/hbbr" ]
+          args:
+          {{- with .Values.hbbr.extraArgs }}
+            {{- toYaml . | nindent 12 }}
+          {{- else}}
+            - "-k _"
+          {{- end }}
           ports:
             - name: hbbr-port
               containerPort: 21117
@@ -56,7 +63,11 @@ spec:
       volumes:
         - name: hbbr-keys
           secret:
-            secretName: hbbr
+      {{- if .Values.secret.existingSecret }}
+            secretName: {{ .Values.secret.existingSecret }}
+      {{- else }}
+            secretName: {{ include "rustdesk-server.fullname" . }}-hbbr
+      {{- end }}
       {{- if .Values.extraVolumes }}
         {{ toYaml .Values.extraVolumes | nindent 8 }}
       {{- end }}

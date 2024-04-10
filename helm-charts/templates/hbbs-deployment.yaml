@@ -37,6 +37,19 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.hbbs.image.repository }}:{{ .Values.hbbs.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.hbbs.image.pullPolicy }}
+          command: [ "/usr/bin/hbbs" ]
+          args:
+          {{- with .Values.hbbs.extraArgs }}
+            {{- toYaml . | nindent 12 }}
+          {{- else}}
+            - "-r $(RELAY)"
+            - "-k _"
+          {{- end }}
+          {{- if .Values.hbbs.relay }}
+          envFrom:
+          - configMapRef:
+              name: {{ include "rustdesk-server.fullname" . }}-hbbs
+          {{- end }}
           ports:
             - name: hbbs-nat-test
               containerPort: 21115
