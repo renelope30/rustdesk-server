@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rustdesk-server.fullname" . }}-hbbs
+  labels:
+    {{- include "rustdesk-server.labels" . | nindent 4 }}
+    app.kubernetes.io/component: hbbs
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.hbbsNatTest }}
+      targetPort: hbbs-nat-test
+      protocol: TCP
+      name: hbbs-nat-test
+    - port: {{ .Values.service.hbbsPort }}
+      targetPort: hbbs-port
+      protocol: TCP
+      name: hbbs-port
+    - port: {{ .Values.service.hbbsPort }}
+      targetPort: hbbs-port-udp
+      protocol: UDP
+      name: hbbs-port-udp
+    - port: {{ .Values.service.hbbsWebsocket }}
+      targetPort: hbbs-websocket
+      protocol: TCP
+      name: hbbs-websocket
+  selector:
+    {{- include "rustdesk-server.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: hbbs

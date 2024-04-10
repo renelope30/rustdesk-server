@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "rustdesk-server.fullname" . }}-hbbr
+  labels:
+    {{- include "rustdesk-server.labels" . | nindent 4 }}
+    app.kubernetes.io/component: hbbr
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.hbbrPort }}
+      targetPort: hbbr-port
+      protocol: TCP
+      name: hbbr-port
+    - port: {{ .Values.service.hbbrWebsocket }}
+      targetPort: hbbr-websocket
+      protocol: TCP
+      name: hbbr-websocket
+  selector:
+    {{- include "rustdesk-server.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: hbbr
