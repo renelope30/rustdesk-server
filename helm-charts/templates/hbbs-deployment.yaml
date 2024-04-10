@@ -5,6 +5,10 @@ metadata:
   labels:
     {{- include "rustdesk-server.labels" . | nindent 4 }}
     app.kubernetes.io/component: hbbs
+  {{- with .Values.hbbs.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: 1
   selector:

@@ -12,6 +12,7 @@ hbbs:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
   relay: rustdesk.example.com
+  annotations: {}
   # extraArgs:
   #   - foo
   #   - bar
@@ -23,13 +24,18 @@ hbbr:
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
+  annotations: {}
+  # extraArgs:
+  #   - foo
+  #   - bar
   secret:
     # existingSecret: rustdesk-server-hbbr
     private: foo
     public: bar
-  # extraArgs:
-  #   - foo
-  #   - bar
+    # -- Labels for the Secret
+    labels: {}
+    # -- Annotations for the Secret
+    annotations: {}
 
 imagePullSecrets: []
 nameOverride: ""

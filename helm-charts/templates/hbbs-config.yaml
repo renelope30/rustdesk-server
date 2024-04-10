@@ -9,6 +9,10 @@ metadata:
     {{- toYaml . | nindent 4 }}
     {{- end }}
   name: {{ include "rustdesk-server.fullname" . }}-hbbs
+  {{- with .Values.annotations }}
+  annotations:
+    {{ toYaml . | indent 4 }}
+  {{- end }}
 data:
   RELAY: {{ .Values.hbbs.relay }}
 {{- end -}}
