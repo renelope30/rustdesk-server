@@ -50,6 +50,9 @@ spec:
             - "-k _"
           {{- end }}
           {{- if .Values.hbbs.relay }}
+          env:
+            - name: DB_URL
+              value: "/db/db_v2.sqlite3"
           envFrom:
           - configMapRef:
               name: {{ include "rustdesk-server.fullname" . }}-hbbs
@@ -71,11 +74,21 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - mountPath: /root
+              readOnly: true
+              name: hbbr-keys
+            - mountPath: /db
               name: hbbs-db
           {{- if .Values.extraVolumeMounts }}
             {{ toYaml .Values.extraVolumeMounts | nindent 12 }}
           {{- end }}
       volumes:
+        - name: hbbr-keys
+          secret:
+      {{- if .Values.hbbr.secret.existingSecret }}
+            secretName: {{ .Values.hbbr.secret.existingSecret }}
+      {{- else }}
+            secretName: {{ include "rustdesk-server.fullname" . }}-hbbr
+      {{- end }}
         - name: hbbs-db
           persistentVolumeClaim:
             claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "rustdesk-server.fullname" . }}-hbbs-pvc{{- end }}
