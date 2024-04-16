@@ -46,7 +46,8 @@ spec:
           {{- with .Values.hbbr.extraArgs }}
             {{- toYaml . | nindent 12 }}
           {{- else}}
-            - "-k _"
+            - "-k"
+            - "_"
           {{- end }}
           ports:
             - name: hbbr-port
