@@ -36,7 +36,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}-hbbr
+        - name: {{ .Chart.Name }}-hbbs
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.hbbs.image.repository }}:{{ .Values.hbbs.image.tag | default .Chart.AppVersion }}"
